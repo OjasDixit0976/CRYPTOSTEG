@@ -1,0 +1,330 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="cyber-header text-center">
+    <h1 class="cyber-title cyber-glow-text">CryptoSteg</h1>
+    <p class="cyber-subtitle">Hide encrypted messages in images using advanced steganography techniques</p>
+</div>
+
+<div class="tab-content">
+    <!-- Steganography Tab -->
+    <div class="tab-pane fade show active" id="steganography">
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- Hide Data Panel -->
+                <div class="cyber-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-eye-slash me-2"></i>Hide Data in Image</h2>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Image Upload -->
+                        <div class="mb-3">
+                            <label for="hideImageUpload" class="form-label">Choose Image:</label>
+                            <input type="file" class="form-control" id="hideImageUpload" accept="image/png, image/jpeg, image/gif, image/bmp">
+                        </div>
+                        
+                        <!-- Image Preview -->
+                        <div class="cyber-image-container mb-3">
+                            <div id="hideNoImageMessage" class="cyber-no-image">
+                                <i class="fas fa-image fa-3x mb-2"></i>
+                                <span>Upload an image to begin</span>
+                            </div>
+                            <img id="hideImagePreview" class="cyber-image" style="display: none;">
+                        </div>
+                        
+                        <!-- Image Info -->
+                        <div class="small text-muted mb-3" id="hideImageInfo">
+                            No image selected
+                        </div>
+                        
+                        <!-- Text to Hide -->
+                        <div class="mb-3">
+                            <label for="hideData" class="form-label">Text to Hide:</label>
+                            <textarea class="form-control" id="hideData" rows="3" placeholder="Enter your secret message here..."></textarea>
+                        </div>
+                        
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="hidePassword" class="form-label">Encryption Password (Optional):</label>
+                            <input type="password" class="form-control" id="hidePassword" placeholder="Leave empty for no encryption">
+                        </div>
+                        
+                        <!-- Hide Data Button -->
+                        <div class="d-grid">
+                            <button id="hideDataBtn" class="btn btn-primary">
+                                <i class="fas fa-eye-slash"></i> Hide Data in Image
+                            </button>
+                        </div>
+                        
+                        <!-- Result Actions -->
+                        <div id="hideResultActions" class="mt-3 text-center" style="display: none;">
+                            <button id="hideDownloadBtn" class="btn btn-success">
+                                <i class="fas fa-download"></i> Download Image with Hidden Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <!-- Extract Data Panel -->
+                <div class="cyber-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-eye me-2"></i>Extract Data from Image</h2>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Image Upload -->
+                        <div class="mb-3">
+                            <label for="extractImageUpload" class="form-label">Choose Image with Hidden Data:</label>
+                            <input type="file" class="form-control" id="extractImageUpload" accept="image/png, image/jpeg, image/gif, image/bmp">
+                        </div>
+                        
+                        <!-- Image Preview -->
+                        <div class="cyber-image-container mb-3">
+                            <div id="extractNoImageMessage" class="cyber-no-image">
+                                <i class="fas fa-image fa-3x mb-2"></i>
+                                <span>Upload an image to extract data</span>
+                            </div>
+                            <img id="extractImagePreview" class="cyber-image" style="display: none;">
+                        </div>
+                        
+                        <!-- Image Info -->
+                        <div class="small text-muted mb-3" id="extractImageInfo">
+                            No image selected
+                        </div>
+                        
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="extractPassword" class="form-label">Decryption Password (if needed):</label>
+                            <input type="password" class="form-control" id="extractPassword" placeholder="Required only if data was encrypted">
+                        </div>
+                        
+                        <!-- Extract Data Button -->
+                        <div class="d-grid">
+                            <button id="extractDataBtn" class="btn btn-info">
+                                <i class="fas fa-eye"></i> Extract Data
+                            </button>
+                        </div>
+                        
+                        <!-- Extracted Data Result -->
+                        <div id="extractResultContainer" class="mt-3" style="display: none;">
+                            <label for="extractedData" class="form-label">Extracted Data:</label>
+                            <textarea class="form-control" id="extractedData" rows="3" readonly></textarea>
+                            <div class="d-grid mt-2">
+                                <button onclick="document.getElementById('extractedData').select(); document.execCommand('copy');" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-copy"></i> Copy to Clipboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Encryption Tab -->
+    <div class="tab-pane fade" id="encryption">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <!-- Encrypt Panel -->
+                <div class="cyber-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-lock me-2"></i>Encrypt Text</h2>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Plaintext -->
+                        <div class="mb-3">
+                            <label for="plaintext" class="form-label">Text to Encrypt:</label>
+                            <textarea class="form-control" id="plaintext" rows="3" placeholder="Enter text to encrypt..."></textarea>
+                        </div>
+                        
+                        <!-- Algorithm Selection -->
+                        <div class="mb-3">
+                            <label for="encryptAlgorithm" class="form-label">Encryption Algorithm:</label>
+                            <select class="form-select" id="encryptAlgorithm">
+                                <option value="aes" selected>AES (Advanced Encryption Standard)</option>
+                                <option value="des">DES (Data Encryption Standard)</option>
+                                <option value="tripledes">Triple DES</option>
+                                <option value="rabbit">Rabbit</option>
+                                <option value="rc4">RC4</option>
+                                <option value="caesar">Caesar Cipher</option>
+                            </select>
+                            <div id="algorithmInfo" class="small mt-1">
+                                <!-- Algorithm info will be populated with JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Caesar Shift (only shown for Caesar cipher) -->
+                        <div id="caesarShiftContainer" class="mb-3" style="display: none;">
+                            <label for="caesarShift" class="form-label">Shift Value (1-25):</label>
+                            <input type="number" class="form-control" id="caesarShift" min="1" max="25" value="3">
+                        </div>
+                        
+                        <!-- Encryption Key -->
+                        <div class="mb-3">
+                            <label for="encryptKey" class="form-label">Encryption Key:</label>
+                            <input type="password" class="form-control" id="encryptKey" placeholder="Enter encryption key">
+                        </div>
+                        
+                        <!-- Output Format -->
+                        <div class="mb-3">
+                            <label for="outputFormat" class="form-label">Output Format:</label>
+                            <select class="form-select" id="outputFormat">
+                                <option value="base64" selected>Base64</option>
+                                <option value="hex">Hexadecimal</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Encrypt Button -->
+                        <div class="d-grid">
+                            <button id="encryptBtn" class="btn btn-primary">
+                                <i class="fas fa-lock"></i> Encrypt
+                            </button>
+                        </div>
+                        
+                        <!-- Encrypted Result -->
+                        <div class="mt-3">
+                            <label for="encrypted" class="form-label">Encrypted Text:</label>
+                            <textarea class="form-control" id="encrypted" rows="3" readonly></textarea>
+                            <div class="d-grid mt-2">
+                                <button id="copyEncryptedBtn" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-copy"></i> Copy to Clipboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <!-- Decrypt Panel -->
+                <div class="cyber-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-unlock me-2"></i>Decrypt Text</h2>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Encrypted Input -->
+                        <div class="mb-3">
+                            <label for="encryptedInput" class="form-label">Text to Decrypt:</label>
+                            <textarea class="form-control" id="encryptedInput" rows="3" placeholder="Enter encrypted text..."></textarea>
+                        </div>
+                        
+                        <!-- Algorithm Selection -->
+                        <div class="mb-3">
+                            <label for="decryptAlgorithm" class="form-label">Decryption Algorithm:</label>
+                            <select class="form-select" id="decryptAlgorithm">
+                                <option value="aes" selected>AES (Advanced Encryption Standard)</option>
+                                <option value="des">DES (Data Encryption Standard)</option>
+                                <option value="tripledes">Triple DES</option>
+                                <option value="rabbit">Rabbit</option>
+                                <option value="rc4">RC4</option>
+                                <option value="caesar">Caesar Cipher</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Caesar Shift (only shown for Caesar cipher) -->
+                        <div id="decryptCaesarShiftContainer" class="mb-3" style="display: none;">
+                            <label for="decryptCaesarShift" class="form-label">Shift Value (1-25):</label>
+                            <input type="number" class="form-control" id="decryptCaesarShift" min="1" max="25" value="3">
+                        </div>
+                        
+                        <!-- Decryption Key -->
+                        <div class="mb-3">
+                            <label for="decryptKey" class="form-label">Decryption Key:</label>
+                            <input type="password" class="form-control" id="decryptKey" placeholder="Enter decryption key">
+                        </div>
+                        
+                        <!-- Input Format -->
+                        <div class="mb-3">
+                            <label for="inputFormat" class="form-label">Input Format:</label>
+                            <select class="form-select" id="inputFormat">
+                                <option value="base64" selected>Base64</option>
+                                <option value="hex">Hexadecimal</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Decrypt Button -->
+                        <div class="d-grid">
+                            <button id="decryptBtn" class="btn btn-info">
+                                <i class="fas fa-unlock"></i> Decrypt
+                            </button>
+                        </div>
+                        
+                        <!-- Decrypted Result -->
+                        <div class="mt-3">
+                            <label for="decrypted" class="form-label">Decrypted Text:</label>
+                            <textarea class="form-control" id="decrypted" rows="3" readonly></textarea>
+                            <div class="d-grid mt-2">
+                                <button id="copyDecryptedBtn" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-copy"></i> Copy to Clipboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- About Tab -->
+    <div class="tab-pane fade" id="about">
+        <div class="cyber-panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-info-circle me-2"></i>About CryptoSteg</h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="cyber-glow-text mb-3">What is Steganography?</h4>
+                        <p>
+                            Steganography is the practice of concealing information within seemingly ordinary files or messages. 
+                            Unlike encryption, which makes data unreadable but detectable, steganography hides the very existence of the 
+                            secret data, making it invisible to the casual observer.
+                        </p>
+                        
+                        <h4 class="cyber-glow-text mb-3 mt-4">How CryptoSteg Works</h4>
+                        <p>
+                            CryptoSteg combines steganography with encryption for maximum security:
+                        </p>
+                        <ol>
+                            <li>
+                                <strong>LSB (Least Significant Bit) Steganography</strong>: 
+                                The tool hides data in the least significant bits of the image's pixel data. 
+                                These tiny changes are virtually invisible to the human eye.
+                            </li>
+                            <li>
+                                <strong>Multiple Encryption Algorithms</strong>: 
+                                Before hiding data, it can be encrypted using various cryptographic algorithms 
+                                including AES, DES, Triple DES, Rabbit, and RC4.
+                            </li>
+                            <li>
+                                <strong>Password Protection</strong>: 
+                                Add an extra layer of security by password-protecting your hidden data.
+                            </li>
+                        </ol>
+                        
+                        <h4 class="cyber-glow-text mb-3 mt-4">Features</h4>
+                        <ul>
+                            <li>Hide text in images using advanced steganography techniques</li>
+                            <li>Extract hidden messages from images</li>
+                            <li>Multiple encryption algorithms for additional security</li>
+                            <li>Support for various image formats (PNG, JPG, GIF, BMP)</li>
+                            <li>Client-side processing for enhanced privacy</li>
+                            <li>Standalone text encryption and decryption tools</li>
+                        </ul>
+                        
+                        <div class="alert alert-warning mt-4">
+                            <h5 class="mb-2"><i class="fas fa-exclamation-triangle me-2"></i>Disclaimer</h5>
+                            <p class="mb-0 small">
+                                This tool is provided for educational and legitimate security purposes only. 
+                                Do not use for any illegal activities or to bypass security measures without authorization. 
+                                The developers assume no liability for misuse of this tool.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
