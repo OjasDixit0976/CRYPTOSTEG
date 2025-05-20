@@ -1,0 +1,215 @@
+:root {
+    --cyber-primary: #00ffea;
+    --cyber-secondary: #ff00d4;
+    --cyber-background: #0a0a14;
+    --cyber-dark: #12121c;
+    --cyber-panel: #16161e;
+    --cyber-glow: 0 0 10px rgba(0, 255, 234, 0.7);
+    --cyber-glass: rgba(22, 22, 30, 0.8);
+}
+
+body {
+    background-color: var(--cyber-background);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar Styling */
+.cyber-navbar {
+    background-color: var(--cyber-dark);
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 255, 234, 0.2);
+    margin-bottom: 20px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Typography Effects */
+.cyber-glow-text {
+    color: var(--cyber-primary);
+    text-shadow: var(--cyber-glow);
+}
+
+.cyber-title {
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.cyber-subtitle {
+    color: var(--bs-light);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.cyber-header {
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+    position: relative;
+}
+
+/* Panel Styling */
+.cyber-panel {
+    background-color: var(--cyber-panel);
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 255, 234, 0.2);
+    overflow: hidden;
+}
+
+.panel-header {
+    background-color: var(--cyber-dark);
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 234, 0.2);
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.panel-body {
+    padding: 1.5rem;
+}
+
+/* Footer */
+.cyber-footer {
+    background-color: var(--cyber-dark);
+    border-top: 1px solid rgba(0, 255, 234, 0.2);
+    margin-top: auto;
+}
+
+/* Image Preview Container */
+.cyber-image-container {
+    background-color: var(--cyber-dark);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.cyber-image {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.cyber-no-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.3);
+    height: 100%;
+    width: 100%;
+}
+
+/* Form Elements */
+.form-control, .form-select {
+    background-color: var(--cyber-dark);
+    border-color: rgba(0, 255, 234, 0.2);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--cyber-dark);
+    border-color: var(--cyber-primary);
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 234, 0.25);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--cyber-primary);
+    border-color: var(--cyber-primary);
+    color: var(--cyber-dark);
+}
+
+.btn-primary:hover {
+    background-color: #00cce0;
+    border-color: #00cce0;
+    color: var(--cyber-dark);
+}
+
+.btn-info {
+    background-color: #4d00ff;
+    border-color: #4d00ff;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #4200d1;
+    border-color: #4200d1;
+    color: white;
+}
+
+.btn-success {
+    background-color: #00ff9d;
+    border-color: #00ff9d;
+    color: var(--cyber-dark);
+}
+
+.btn-success:hover {
+    background-color: #00d683;
+    border-color: #00d683;
+    color: var(--cyber-dark);
+}
+
+/* Tab styling */
+.nav-tabs {
+    border-bottom-color: rgba(0, 255, 234, 0.2);
+}
+
+.nav-tabs .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-tabs .nav-link.active {
+    background-color: transparent;
+    border-color: rgba(0, 255, 234, 0.2);
+    border-bottom-color: var(--cyber-panel);
+    color: var(--cyber-primary);
+}
+
+.nav-tabs .nav-link:hover:not(.active) {
+    border-color: transparent;
+    color: var(--cyber-primary);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.processing-animation {
+    animation: pulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cyber-header {
+        padding: 1rem 0;
+    }
+    
+    .panel-body {
+        padding: 1rem;
+    }
+    
+    .cyber-image-container {
+        height: 200px;
+    }
+}
